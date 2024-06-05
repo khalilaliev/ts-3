@@ -27,38 +27,34 @@
 // console.log(calculator.div(2, 2));
 
 interface ICalculator {
-  calculate: (a: number, b: number, operator: string) => void;
+  calculate: (a: number, b: number, operator: string) => number | string;
 }
 
 class Calculator implements ICalculator {
-  calculate(num1: number, num2: number, operator: string): void {
+  calculate(num1: number, num2: number, operator: string): number | string {
     switch (operator) {
       case "+":
-        console.log(num1 + num2);
-        break;
+        return num1 + num2;
       case "-":
-        console.log(num1 - num2);
-
-        break;
+        return num1 - num2;
       case "*":
-        console.log(num1 * num2);
-        break;
+        return num1 * num2;
       case "/":
-        console.log(num1 / num2);
-        break;
+        return num1 / num2;
       default:
-        console.log("Enter a valid operator please!");
+        return "Enter a valid operator please!";
     }
   }
 }
 
 const calculator = new Calculator();
-calculator.calculate(2, 2, "+");
-calculator.calculate(2, 2, "-");
-calculator.calculate(2, 2, "*");
-calculator.calculate(2, 2, "/");
+console.log(calculator.calculate(2, 2, "+"));
+console.log(calculator.calculate(2, 2, "-"));
+console.log(calculator.calculate(2, 2, "*"));
+console.log(calculator.calculate(2, 2, "/"));
 
 // ----
+
 interface IBook {
   title: string;
   yearOfPublishing: number;
@@ -73,35 +69,27 @@ interface IAuthor {
 }
 
 interface IBookService {
-  getBookInfo(title: string, yearOfPublishing: number, genre: string): IBook;
-  getAuthorInfo(
-    firstName: string,
-    surname: string,
-    dateOfBirth: number,
-    nationality?: string
-  ): IAuthor;
+  getBookInfo(book: IBook): IBook;
+  getAuthorInfo(author: IAuthor): IAuthor;
 }
 
 const bookServices: IBookService = {
-  getBookInfo: (
-    title: string,
-    yearOfPublishing: number,
-    genre: string
-  ): IBook => {
-    return { title, yearOfPublishing, genre };
-  },
-  getAuthorInfo: (
-    firstName: string,
-    surname: string,
-    dateOfBirth: number,
-    nationality?: string
-  ): IAuthor => {
-    return { firstName, surname, dateOfBirth };
-  },
+  getBookInfo: (book) => book,
+  getAuthorInfo: (author) => author,
 };
 
 console.log(
-  bookServices.getBookInfo("The Three-Body Problem", 2008, "Science fiction")
+  bookServices.getBookInfo({
+    title: '"The Three-Body Problem"',
+    yearOfPublishing: 2008,
+    genre: "Science fiction",
+  })
 );
 
-console.log(bookServices.getAuthorInfo("Liu", "Cixin", 1963));
+console.log(
+  bookServices.getAuthorInfo({
+    firstName: "Liu",
+    surname: "Cixin",
+    dateOfBirth: 1963,
+  })
+);
